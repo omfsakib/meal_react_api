@@ -1,0 +1,160 @@
+@media only screen and (max-width: 1390px) {
+    /* For MessHome: */
+    .main h2{
+      font-size: 8em;
+    }
+
+  }
+
+@media only screen and (max-width: 1290px) {
+    /* For MessHome: */
+    .main h2{
+      font-size: 7em;
+    }
+  }
+
+@media only screen and (max-width: 1190px) {
+    
+  }
+
+@media only screen and (max-width: 1090px) {
+    /* For MessHome: */
+    .main h2{
+      font-size: 6em;
+    }
+  }
+  
+@media only screen and (max-width: 990px) {
+    /* For MessHome: */
+    .main h2{
+      font-size: 5em;
+    }
+    .copyrightText {
+      left: 90px;
+    }
+  }
+
+@media only screen and (max-width: 890px) {
+   /* For MessHome: */
+  .copyrightText {
+    left: 80px;
+  }
+  }
+
+@media only screen and (max-width: 790px) {
+    /* For Header: */
+    header{
+        padding: 25px 40px;
+    }
+    .headers{
+      height: 93px;
+    }
+    header .logo{
+        font-size: 1.8em;
+    }
+    /* For Login: */
+    .page {
+      height: auto;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+    }
+    .container {
+      flex-direction: column;
+      height: 630px;
+      width: 320px;
+    }
+    .left {
+      height: 100%;
+      left: 20px;
+      width: calc(100% - 40px);
+      max-height: 270px;
+    }
+    .right {
+      flex-shrink: 0;
+      height: 100%;
+      width: 100%;
+      max-height: 350px;
+    }
+    /* For MessHome: */
+    .main h2{
+      font-size: 4em;
+    }
+    .sci{
+      right: 40px;
+    }
+    .copyrightText {
+      left: 70px;
+    }
+  }
+
+@media only screen and (max-width: 690px) {
+    /* For Header: */
+    header{
+        padding: 25px 35px;
+    }
+    header .logo{
+        font-size: 1.6em;
+    }
+    .headers{
+      height: 90px;
+    }
+    /* For MessHome: */
+    .copyrightText {
+      left: 60px;
+    }
+  }
+
+@media only screen and (max-width: 590px) {
+    /* For Header: */
+    header{
+        padding: 25px 35px;
+    }
+    header .logo{
+        font-size: 1.3em;
+    }
+    /* For MessHome: */
+    .main h2{
+      font-size: 3em;
+    }
+    .copyrightText {
+      left: 50px;
+    }
+  }
+
+@media only screen and (max-width: 490px) {
+    /* For Header: */
+    header{
+        padding: 25px 30px;
+    }
+    header .logo{
+        font-size: 1.2em;
+    }
+    /* For Login: */
+    .page{
+      height: calc(100% - 175px);
+    }
+    /* For MessHome: */
+    .main h2{
+      font-size: 2em;
+    }
+    .copyrightText {
+      left: 40px;
+    }
+  }
+
+@media only screen and (max-width: 390px) {
+    /* For Header: */
+    header{
+        padding: 25px 25px;
+    }
+    header .logo{
+        font-size: 1em;
+    }
+    /* For MessHome: */
+    .sci{
+      right: 20px;
+    }
+    .copyrightText {
+      left: 30px;
+    }
+  }
