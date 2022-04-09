@@ -23,3 +23,8 @@ class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
         fields = '__all__'
+
+class BillsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bills
+        fields = '__all__'

@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(Mess)
 admin.site.register(Member)
 admin.site.register(Meals)
+admin.site.register(Bills)

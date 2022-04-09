@@ -1,10 +1,8 @@
 import React,{useEffect,useContext, useState} from "react";
 import AuthContext from "../Context/AuthContext";
 import * as FaIcons from 'react-icons/fa';
-import MessHome from "../pages/MessHome";
 
 const UserMeal = ({obj}) => {
-
 
     let {authTokens} =useContext(AuthContext)
     const [meal,setMeal] = useState([])

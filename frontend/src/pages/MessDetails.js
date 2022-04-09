@@ -1,5 +1,8 @@
-import React,{useState} from 'react'
+import React,{useContext, useState} from "react";
+import Bills from '../components/Bills';
 import Meals from '../components/Meals';
+import AuthContext from "../Context/AuthContext";
+import { getData } from "../components/BillFetch";
 
 
 const MessDetails = () => {
@@ -8,9 +11,16 @@ const MessDetails = () => {
     const toggleTab = (index) => {
         setToggleState(index);
     };
+    
+    let {authTokens} =useContext(AuthContext)
 
     let mess =  JSON.parse(localStorage.getItem('mess'))
 
+    let handleClick = async ({mess,authTokens}) => {
+        setTimeout(() => {
+            getData({mess,authTokens})
+         }, 500);
+    }
     return(
         <>
             <div className='headers'></div>
@@ -24,8 +34,11 @@ const MessDetails = () => {
                     Meals
                     </button>
                     <button
-                    className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
-                    onClick={() => toggleTab(2)}
+                    className={toggleState === 2 ? "tabs active-tabs" : "tabs"} id="bills"
+                    onClick={() => {
+                        toggleTab(2);
+                        handleClick({mess,authTokens});
+                    }}
                     >
                     Bills
                     </button>
@@ -59,6 +72,7 @@ const MessDetails = () => {
                     <div
                     className={toggleState === 2 ? "content  active-content" : "content"}
                     >
+                    <Bills/>
                     </div>
 
                     <div

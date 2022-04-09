@@ -139,3 +139,39 @@ def member(request,pk):
         serializer.data
     )
 
+@api_view(['GET'])
+def bills(request,pk):
+    mess = Mess.objects.get(id = pk)
+    bills = Bills.objects.filter(mess=mess)
+    serializer = BillsSerializer(bills, many=True)
+    return Response(
+        serializer.data
+    )
+
+@api_view(['PUT'])
+def updateBill(request,pk):
+    data = request.data 
+    bill = Bills.objects.get(id = pk)
+    serializer = BillsSerializer(instance = bill, data = data)
+
+    if serializer.is_valid():
+        serializer.save()
+    
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def createBill(request):
+    data = request.data
+    mess = request.user.member.mess
+    bill = Bills.objects.create( mess = mess,
+        bill_on=data['bill_on'],
+        amount = data['amount']
+    )
+    serializer = BillsSerializer(bill,many = False)
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+def deleteBill(request,pk):
+    bill = Bills.objects.get(id = pk)
+    bill.delete()
+    return Response('Bill was deleted!')

@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null)
         localStorage.removeItem('authTokens')
         localStorage.removeItem('mess')
+        localStorage.removeItem('bills')
         navigate('/login')
     }
 
