@@ -28,3 +28,8 @@ class BillsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bills
         fields = '__all__'
+
+class AmountSpendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AmountSpend
+        fields = '__all__'

@@ -3,6 +3,8 @@ import Bills from '../components/Bills';
 import Meals from '../components/Meals';
 import AuthContext from "../Context/AuthContext";
 import { getData } from "../components/BillFetch";
+import { getSpendData } from "../components/SpendFetch";
+import AmountSpend from "../components/AmountSpends";
 
 
 const MessDetails = () => {
@@ -16,9 +18,14 @@ const MessDetails = () => {
 
     let mess =  JSON.parse(localStorage.getItem('mess'))
 
-    let handleClick = async ({mess,authTokens}) => {
+    let handleBillClick = async ({mess,authTokens}) => {
         setTimeout(() => {
             getData({mess,authTokens})
+         }, 500);
+    }
+    let handleSpendClick = async ({mess,authTokens}) => {
+        setTimeout(() => {
+            getSpendData({mess,authTokens})
          }, 500);
     }
     return(
@@ -37,14 +44,17 @@ const MessDetails = () => {
                     className={toggleState === 2 ? "tabs active-tabs" : "tabs"} id="bills"
                     onClick={() => {
                         toggleTab(2);
-                        handleClick({mess,authTokens});
+                        handleBillClick({mess,authTokens});
                     }}
                     >
                     Bills
                     </button>
                     <button
                     className={toggleState === 3 ? "tabs active-tabs" : "tabs"}
-                    onClick={() => toggleTab(3)}
+                    onClick={() => {
+                        toggleTab(3);
+                        handleSpendClick({mess,authTokens});
+                    }}
                     >
                     Amount Spend
                     </button>
@@ -78,6 +88,7 @@ const MessDetails = () => {
                     <div
                     className={toggleState === 3 ? "content  active-content" : "content"}
                     >
+                    <AmountSpend/>
                     </div>
                     <div
                     className={toggleState === 4 ? "content  active-content" : "content"}

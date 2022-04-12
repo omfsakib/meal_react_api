@@ -14,5 +14,9 @@ urlpatterns = [
     path('bills/<str:pk>',bills,name="bills"),
     path('create/bill/',createBill,name="create_bill"),
     path('update/bill/<str:pk>',updateBill,name="update-bill"),
-    path('delete/bill/<str:pk>',deleteBill,name="delete-bill")
+    path('delete/bill/<str:pk>',deleteBill,name="delete-bill"),
+    path('amountspend/<str:pk>',amountSpends,name="amount-spend"),
+    path('create/spend/',createSpend,name="create_spend"),
+    path('update/spend/<str:pk>',updateSpend,name="update-spend"),
+    path('delete/spend/<str:pk>',deleteSpend,name="delete-spend"),
 ]

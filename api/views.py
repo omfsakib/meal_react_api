@@ -175,3 +175,40 @@ def deleteBill(request,pk):
     bill = Bills.objects.get(id = pk)
     bill.delete()
     return Response('Bill was deleted!')
+
+@api_view(['GET'])
+def amountSpends(request,pk):
+    mess = Mess.objects.get(id = pk)
+    spends = AmountSpend.objects.filter(mess=mess)
+    serializer = AmountSpendSerializer(spends, many=True)
+    return Response(
+        serializer.data
+    )
+
+@api_view(['PUT'])
+def updateSpend(request,pk):
+    data = request.data 
+    spend = AmountSpend.objects.get(id = pk)
+    serializer = AmountSpendSerializer(instance = spend, data = data)
+
+    if serializer.is_valid():
+        serializer.save()
+    
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def createSpend(request):
+    data = request.data
+    mess = request.user.member.mess
+    spend = AmountSpend.objects.create( mess = mess,
+        spend_on=data['spend_on'],
+        amount = data['amount']
+    )
+    serializer = AmountSpendSerializer(spend,many = False)
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+def deleteSpend(request,pk):
+    spend = AmountSpend.objects.get(id = pk)
+    spend.delete()
+    return Response('Bill was deleted!')
