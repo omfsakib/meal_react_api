@@ -33,3 +33,8 @@ class AmountSpendSerializer(serializers.ModelSerializer):
     class Meta:
         model = AmountSpend
         fields = '__all__'
+
+class CashDepositSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CashDeposit
+        fields = '__all__'

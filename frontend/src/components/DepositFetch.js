@@ -1,5 +1,5 @@
-export const getData= async({mess,authTokens})=>{
-    let response = await fetch(`/api/bills/${mess.id}`,{
+export const getDepositData= async({mess,authTokens})=>{
+    let response = await fetch(`/api/deposits/${mess.id}`,{
         method:'GET',
         headers:{
             'Content-Type': 'application/json',
@@ -7,6 +7,6 @@ export const getData= async({mess,authTokens})=>{
         }
     })
     let data = await response.json()
-    localStorage.setItem('bills',JSON.stringify(data))
+    localStorage.setItem('deposits',JSON.stringify(data))
     return data
-}
+  }

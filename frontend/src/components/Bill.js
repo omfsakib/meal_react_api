@@ -8,8 +8,6 @@ const Bill = ({ bill }) => {
     const [clicked,setClicked] = useState(false)
     
     const [ubill,setUBill] = useState(bill)
-
-
     let isClicked = () => {
         setClicked(true);
     }

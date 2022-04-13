@@ -1,10 +1,12 @@
 import React,{useContext, useState} from "react";
 import Bills from '../components/Bills';
 import Meals from '../components/Meals';
+import CashDeposits from '../components/CashDeposits';
 import AuthContext from "../Context/AuthContext";
 import { getData } from "../components/BillFetch";
 import { getSpendData } from "../components/SpendFetch";
 import AmountSpend from "../components/AmountSpends";
+import { getDepositData } from "../components/DepositFetch";
 
 
 const MessDetails = () => {
@@ -14,18 +16,27 @@ const MessDetails = () => {
         setToggleState(index);
     };
     
-    let {authTokens} =useContext(AuthContext)
+    let {authTokens} =useContext(AuthContext);
+
+    const [bills,setBills] = useState(() => localStorage.getItem('bills') ? JSON.parse(localStorage.getItem('bills')) : null)
+    const [spends,setSpends] = useState(() => localStorage.getItem('spends') ? JSON.parse(localStorage.getItem('spends')) : null)
+    const [deposits,setDeposits] = useState(() => localStorage.getItem('deposits') ? JSON.parse(localStorage.getItem('deposits')) : null)
 
     let mess =  JSON.parse(localStorage.getItem('mess'))
 
     let handleBillClick = async ({mess,authTokens}) => {
         setTimeout(() => {
-            getData({mess,authTokens})
+            getData({mess,authTokens}).then(r => { setBills(r) })
          }, 500);
     }
     let handleSpendClick = async ({mess,authTokens}) => {
         setTimeout(() => {
-            getSpendData({mess,authTokens})
+            getSpendData({mess,authTokens}).then(r => { setSpends(r) })
+         }, 500);
+    }
+    let handleDepositClick = async ({mess,authTokens}) => {
+        setTimeout(() => {
+            getDepositData({mess,authTokens}).then(r => { setDeposits(r) })
          }, 500);
     }
     return(
@@ -60,7 +71,10 @@ const MessDetails = () => {
                     </button>
                     <button
                     className={toggleState === 4 ? "tabs active-tabs" : "tabs"}
-                    onClick={() => toggleTab(4)}
+                    onClick={() => {
+                        toggleTab(4);
+                        handleDepositClick({mess,authTokens});
+                    }}
                     >
                     Cash Deposit
                     </button>
@@ -82,17 +96,18 @@ const MessDetails = () => {
                     <div
                     className={toggleState === 2 ? "content  active-content" : "content"}
                     >
-                    <Bills/>
+                    {bills === null ? null : <Bills/>}
                     </div>
 
                     <div
                     className={toggleState === 3 ? "content  active-content" : "content"}
                     >
-                    <AmountSpend/>
+                    {spends === null ? null : <AmountSpend/>}
                     </div>
                     <div
                     className={toggleState === 4 ? "content  active-content" : "content"}
                     >
+                    {deposits === null ? null : <CashDeposits/>}
                     </div>
                     <div
                     className={toggleState === 5 ? "content  active-content" : "content"}

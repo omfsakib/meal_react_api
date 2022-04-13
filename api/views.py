@@ -22,6 +22,47 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 @api_view(['GET'])
+def getUsername(request,pk):
+    user = User.objects.get(id =pk)
+    username = user.username
+
+    return Response({
+        'username':username
+    })
+
+@api_view(['GET'])
+def checkDeposit(request,pk,*args, **kwargs):
+    year = date.today().year
+    month = date.today().month
+    user = User.objects.get(id = pk)
+    mess = user.member.mess
+    dp = CashDeposit.objects.filter(mess=mess,user=user,*args, **kwargs,date_created__month__gte=month,date_created__year__gte=year).count()
+    if dp == 0:
+        deposit = CashDeposit.objects.filter(mess=mess,user=user,*args, **kwargs,date_created__month__gte=month,date_created__year__gte=year)
+        serializer = CashDepositSerializer(deposit,many=False)
+    elif dp == 1:
+        deposit = CashDeposit.objects.get(mess=mess,user=user,*args, **kwargs,date_created__month__gte=month,date_created__year__gte=year)
+        serializer = CashDepositSerializer(deposit,many=False)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def checkSpend(request,pk,*args, **kwargs):
+    year = date.today().year
+    month = date.today().month
+    user = User.objects.get(id = pk)
+    mess = user.member.mess
+    am = AmountSpend.objects.filter(mess=mess,user=user,*args, **kwargs,date_created__month__gte=month,date_created__year__gte=year).count()
+    if am == 0:
+        spend = AmountSpend.objects.filter(mess=mess,user=user,*args, **kwargs,date_created__month__gte=month,date_created__year__gte=year)
+        serializer = AmountSpendSerializer(spend,many=False)
+    elif am == 1:
+        spend = AmountSpend.objects.get(mess=mess,user=user,*args, **kwargs,date_created__month__gte=month,date_created__year__gte=year)
+        serializer = AmountSpendSerializer(spend,many=False)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def mess(request):
     user = request.user.member
@@ -187,8 +228,9 @@ def amountSpends(request,pk):
 
 @api_view(['PUT'])
 def updateSpend(request,pk):
-    data = request.data 
+    data = request.data
     spend = AmountSpend.objects.get(id = pk)
+    data['user'] = spend.user.id
     serializer = AmountSpendSerializer(instance = spend, data = data)
 
     if serializer.is_valid():
@@ -197,10 +239,11 @@ def updateSpend(request,pk):
     return Response(serializer.data)
 
 @api_view(['POST'])
-def createSpend(request):
+def createSpend(request,pk):
+    user = User.objects.get(id = pk)
     data = request.data
     mess = request.user.member.mess
-    spend = AmountSpend.objects.create( mess = mess,
+    spend = AmountSpend.objects.create( mess = mess, user = user,
         spend_on=data['spend_on'],
         amount = data['amount']
     )
@@ -211,4 +254,46 @@ def createSpend(request):
 def deleteSpend(request,pk):
     spend = AmountSpend.objects.get(id = pk)
     spend.delete()
-    return Response('Bill was deleted!')
+    return Response('Spend was deleted!')
+
+
+@api_view(['GET'])
+def cashDeposits(request,pk):
+    mess = Mess.objects.get(id = pk)
+    deposits = CashDeposit.objects.filter(mess=mess)
+    serializer = CashDepositSerializer(deposits, many=True)
+    return Response(
+        serializer.data
+    )
+
+@api_view(['PUT'])
+def updateDeposit(request,pk):
+    data = request.data
+    deposit = CashDeposit.objects.get(id = pk)
+    data['mess'] = deposit.mess.id
+    data['user'] = deposit.user.id
+    serializer = CashDepositSerializer(instance = deposit, data = data)
+
+    if serializer.is_valid():
+        serializer.save()
+    
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def createDeposit(request,pk):
+    user = User.objects.get(id = pk)
+    data = request.data
+
+    mess = request.user.member.mess
+    deposit = CashDeposit.objects.create( mess = mess,user=user,
+        deposit_for=data['deposit_for'],
+        amount = data['amount']
+    )
+    serializer = CashDepositSerializer(deposit,many = False)
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+def deleteDeposit(request,pk):
+    deposit = CashDeposit.objects.get(id = pk)
+    deposit.delete()
+    return Response('Deposit was deleted!')

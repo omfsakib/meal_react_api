@@ -587,6 +587,10 @@ input {
 }
 
 /*-- Bills Section  --*/
+#bills {
+    max-height: 590px;
+    overflow: auto;
+}
 .header-content{
     display: flex;
     justify-content: space-between;
@@ -615,6 +619,7 @@ input {
 }
 .addbill-content{
     display: flex;
+    justify-content: center;
     margin-bottom: 20px;
 }
 .addbill-content input{
@@ -682,4 +687,68 @@ input {
 .bill .delete-btn svg{
     position: relative;
     margin-bottom: -2px;
+}
+.user-bill-table{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+.user-bill-table p{
+    font-size: 1.2em;
+}
+.user-bill-table p span{
+    font-size: .7em;
+}
+.update-bill-paid{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.create-bill-user{
+    display: flex;
+    justify-content: center;
+}
+.create-bill-user span input{
+    width: 85px;
+    color: black !important;
+    border: 1px solid black;
+    box-shadow: 1px 1px 1px 1px black;
+}
+.user-bills{
+    margin-top: 30px;
+}
+.user-bills h2{
+    text-align: center;
+    text-transform: uppercase;
+}
+.user-bills h2 svg{
+    cursor: pointer;
+    margin-top: 2px;
+}
+.user-bills p{
+    text-align: center;
+}
+.create-bill-user span .submit-spend-btn{
+    width: auto;
+    padding: 2px 5px;
+    margin-left: 10px;
+    color: black !important;
+    border-radius: 8px;
+    border: 1px solid black;
+    box-shadow: 1px 1px 1px 1px black;
+}
+.create-deposit-user span span{
+    width: auto;
+    padding: 2px 5px;
+    margin-left: 10px;
+    color: #fff !important;
+    border-radius: 8px;
+    border: 1px solid black;
+    box-shadow: 1px 1px 1px 1px black;
+}
+.create-deposit-user span .update-deposit{
+    color: #000 !important;
 }
