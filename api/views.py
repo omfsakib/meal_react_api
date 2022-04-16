@@ -250,6 +250,16 @@ def createSpend(request,pk):
     serializer = AmountSpendSerializer(spend,many = False)
     return Response(serializer.data)
 
+@api_view(['POST'])
+def createMealSpend(request):
+    data = request.data
+    amounts = data['amount-list']
+    total_amount = 0
+    for i in amounts:
+        total_amount += int(i)
+    print(total_amount)
+    return Response("Done")
+
 @api_view(['DELETE'])
 def deleteSpend(request,pk):
     spend = AmountSpend.objects.get(id = pk)

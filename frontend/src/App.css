@@ -328,6 +328,8 @@ input {
 }
 .mess_details .content-tabs {
     flex-grow : 1;
+    max-height: 590px;
+    overflow: auto;
 }
 .mess_details .content {
     background: white;
@@ -587,10 +589,6 @@ input {
 }
 
 /*-- Bills Section  --*/
-#bills {
-    max-height: 590px;
-    overflow: auto;
-}
 .header-content{
     display: flex;
     justify-content: space-between;
@@ -751,4 +749,92 @@ input {
 }
 .create-deposit-user span .update-deposit{
     color: #000 !important;
+}
+
+/*-- Amount Spends Section  --*/
+
+.add-spends{
+    display: flex;
+    justify-content: center;
+}
+.add-spends input{
+    width: 400px;
+    color: black !important;
+    border: 1px solid black;
+    box-shadow: 1px 1px 1px 1px black;
+}
+.add-spends .amount-spend-input{
+    width:100px;
+    margin-left: 20px;
+}
+.add-spends p{
+    padding: 2px 5px;
+    margin-left: 10px;
+    color: black !important;
+    border-radius: 8px;
+    border: 1px solid black;
+    box-shadow: 1px 1px 1px 1px black;
+}
+.add-spends .add-more-btn{
+    width: 90px !important;
+}
+/* .add-spends .done-btn{
+    width: 55px !important;
+} */
+.market-list{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.market-list .spends-obj-amount .amount-with-dlt-btn{
+    display: flex;
+}
+.market-list .spends-obj p,
+.market-list .spends-obj-amount p{
+    height: 35px !important;
+    width: 250px !important;
+    overflow: hidden;
+}
+
+.market-list .spends-obj-amount .amount-with-dlt-btn p{
+   width: auto !important;
+   margin-left: 10px;
+}
+.market-list .spends-obj-amount .amount-with-dlt-btn p:last-child{
+    padding: 2px 5px;
+    height: 30px !important;
+    margin-left: 10px;
+    color: black !important;
+    border-radius: 8px;
+    border: 1px solid black;
+    box-shadow: 1px 1px 1px 1px black;
+}
+.spends-obj .spend-item,
+.amount-with-dlt-btn{
+    margin: 5px;
+}
+.spends-obj input {
+    width: 250px !important;
+    color: black !important;
+    border: 1px solid black;
+    box-shadow: 1px 1px 1px 1px black;
+}
+.amount-with-dlt-btn input{
+    width:100px;
+    color: black !important;
+    border: 1px solid black;
+    box-shadow: 1px 1px 1px 1px black;
+}
+.done-create-list{
+    display: flex;
+    justify-content: center;
+}
+.done-create-list p {
+    width: auto !important;
+    margin-top: 10px;
+    padding: 2px 5px;
+    color: black !important;
+    border-radius: 8px;
+    border: 1px solid black;
+    box-shadow: 1px 1px 1px 1px black;
 }

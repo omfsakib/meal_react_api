@@ -18,6 +18,7 @@ urlpatterns = [
     path('delete/bill/<str:pk>',deleteBill,name="delete-bill"),
     path('amountspend/<str:pk>',amountSpends,name="amount-spend"),
     path('create/spend/<str:pk>',createSpend,name="create_spend"),
+    path('create/meal/spend/',createMealSpend,name="create_meal_spend"),
     path('update/spend/<str:pk>',updateSpend,name="update-spend"),
     path('delete/spend/<str:pk>',deleteSpend,name="delete-spend"),
     path('deposits/<str:pk>',cashDeposits,name="cash-deposits"),
