@@ -1,18 +1,20 @@
 import React,{useState,useContext} from "react";
-// import Spend from "./Spend";
 // import * as FaIcons from 'react-icons/fa';
 // import * as BiIcons from 'react-icons/bi';
 import AuthContext from "../Context/AuthContext";
-// import { getSpendData } from "./SpendFetch";
+import Spend from "./Spend";
+import { getSpendData } from "./SpendFetch";
 
 const AmountSpend = () => {
     let {authTokens} =useContext(AuthContext)
     let mess =  JSON.parse(localStorage.getItem('mess'))
     const [listObj,setListObj] = useState([])
+    const [spends, setSpends] = useState(() => localStorage.getItem('spends') ? JSON.parse(localStorage.getItem('spends')) : null)
     const [listAmount,setListAmount] = useState([])
     const [obj,setObj] = useState("")
     const [objAmount,setObjAmount] = useState(0)
     const [clicked,setClicked] = useState(false)
+    let total_spends = 0
     let getObj = (e) => {
         setObj(String(e.target.value))
     }
@@ -52,15 +54,11 @@ const AmountSpend = () => {
     let falseClicked = () => {
         setClicked(false)
     }
-    // let total_spends = 0
-
-    // const [spends,setSpends] = useState(() => localStorage.getItem('spends') ? JSON.parse(localStorage.getItem('spends')) : null)
-
-    // const[spend,setSpend] = useState(null)
-
-    // spends.map((spend,index) => {
-    //     total_spends += parseInt(spend.amount)
-    // })
+    spends.map((spend,index) => {
+        return(
+            total_spends += parseInt(spend.amount)
+        )
+    })
     let createSpend = async () => {
         fetch(`/api/create/meal/spend/`,{
             method: "POST",
@@ -70,43 +68,25 @@ const AmountSpend = () => {
             },
             body: JSON.stringify({'amount-list':listAmount,'obj-list':listObj})
         })
+        setListAmount([])
+        setListObj([])
     }
-    // let handleSubmit = () => {
-    //     createSpend()
-    //     updateData()
-    // }
-    // let updateData = () => {
-    //     setTimeout(() => {
-    //         getSpendData({mess,authTokens}).then(r => { setSpends(r) })
-    //      }, 500);
-    // }
-    // let handleSpendChange = (e) =>{
-    //     if(!e.target.value){
-
-    //     }
-    //     else{
-    //         setSpend({...spend, 
-    //             'spend_on':e.target.value,
-    //         })
-    //     }
-    // }
-    // let handleAmountChange = (e) =>{
-    //     if(!e.target.value){
-            
-    //     }
-    //     else{
-    //         setSpend({...spend, 
-    //             'amount':e.target.value,
-    //         })
-    //     }
-    // }
+    let handleSubmit = () => {
+        createSpend()
+        updateData()
+    }
+    let updateData = () => {
+        setTimeout(() => {
+            getSpendData({mess,authTokens}).then(r => { setSpends(r) })
+         }, 500);
+    }
     return(
         <>
         <div id = "amount-spends">
             <div className="header-content">
                 <h2><strong>{mess.name}</strong></h2>
                 <h2>Spends on Meal Shopping</h2>
-                <h2>Total Spends : <strong></strong> Tk</h2>
+                <h2>Total Spends : <strong>{total_spends}</strong> Tk</h2>
             </div>
             <div className="add-spends">
                 <input type="text" onChange={(e) => {getObj(e)}} className="spends-on-input" placeholder="Add list..." value={obj}/>
@@ -137,8 +117,17 @@ const AmountSpend = () => {
             </div>
             {listAmount.length === 0 ? null : 
             <div className="done-create-list">
-                {clicked ? <p onClick={falseClicked}>Update List</p> : <p onClick={createSpend}>Done</p>}
+                {clicked ? <p onClick={falseClicked}>Update List</p> : <p onClick={handleSubmit}>Done</p>}
             </div>}
+            <div className="spends-list">
+                {spends.map((spend,index) => {
+                    return(
+                        <div className="single-spend" key={index}>
+                            <Spend uSpend={spend}/>
+                        </div>
+                    )
+                })}
+            </div>
         </div>
         </>
     )

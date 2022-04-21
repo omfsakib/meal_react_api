@@ -48,8 +48,8 @@ class AmountSpend(models.Model):
     mess = models.ForeignKey(Mess, null = True,blank=True ,on_delete=models.CASCADE)
     user = models.ForeignKey(User, null = True,blank=True ,on_delete=models.CASCADE)
     spend_on = models.CharField(max_length= 100,blank=True,null=True)
-    list_spend = ArrayField(models.CharField(max_length= 1000),null=True)
-    amounts = ArrayField(models.IntegerField(),null=True)
+    list_spend = models.CharField(max_length= 2000,blank=True,null=True)
+    amounts = models.CharField(max_length= 2000,blank=True,null=True)
     amount = models.IntegerField(default=0,blank=True,null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 

@@ -1,3 +1,4 @@
+from tokenize import String
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
@@ -235,7 +236,6 @@ def updateSpend(request,pk):
 
     if serializer.is_valid():
         serializer.save()
-    
     return Response(serializer.data)
 
 @api_view(['POST'])
@@ -252,12 +252,27 @@ def createSpend(request,pk):
 
 @api_view(['POST'])
 def createMealSpend(request):
+    user = request.user
+    mess = user.member.mess
+    spend = AmountSpend.objects.create(user = user, mess = mess, spend_on = "Meal Market")
     data = request.data
     amounts = data['amount-list']
+    list = data['obj-list']
     total_amount = 0
+    all_list = ""
+    all_amounts = ""
+    for i in list:
+        all_list += (str(i) + ";")
+    spend.list_spend = all_list
+
     for i in amounts:
+        all_amounts += (str(i) + ";")
         total_amount += int(i)
-    print(total_amount)
+    spend.amounts = all_amounts
+    spend.amount = total_amount
+
+    spend.save()
+
     return Response("Done")
 
 @api_view(['DELETE'])
