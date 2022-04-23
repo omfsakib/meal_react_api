@@ -6,7 +6,7 @@ import Spend from "./Spend";
 import { getSpendData } from "./SpendFetch";
 
 const AmountSpend = () => {
-    let {authTokens} =useContext(AuthContext)
+    let {authTokens} = useContext(AuthContext)
     let mess =  JSON.parse(localStorage.getItem('mess'))
     const [listObj,setListObj] = useState([])
     const [spends, setSpends] = useState(() => localStorage.getItem('spends') ? JSON.parse(localStorage.getItem('spends')) : null)
@@ -26,8 +26,6 @@ const AmountSpend = () => {
         listAmount.push(objAmount)
         setObj("")
         setObjAmount(0)
-        console.log(listObj)
-        console.log(listAmount)
     }
     let updateListObj = (e,index) => {
         const arr = [...listObj]
@@ -71,6 +69,7 @@ const AmountSpend = () => {
         setListAmount([])
         setListObj([])
     }
+   
     let handleSubmit = () => {
         createSpend()
         updateData()
@@ -109,7 +108,7 @@ const AmountSpend = () => {
                             <div  key={index} className="amount-with-dlt-btn">
                                 { clicked ? <input onChange={(e) => {updateListAmount(e,index)}} defaultValue= {amount}/> : <p onClick={trueClicked}> - {amount}</p>}
                                 
-                                <p className="delete-list-item" onClick={(e) => {removeItem(index)}}> Remove </p>
+                                <p className="delete-list-item" onClick={() => {removeItem(index)}}> Remove </p>
                             </div>
                         )
                     })}
@@ -123,7 +122,10 @@ const AmountSpend = () => {
                 {spends.map((spend,index) => {
                     return(
                         <div className="single-spend" key={index}>
-                            <Spend uSpend={spend}/>
+                            <div className="single-spend-details">
+                                <Spend uSpend={spend} updateSpends={setSpends}/>
+                                {/* <p onClick={() => {handleDelete(spend.id)}}>Delete</p> */}
+                            </div>
                         </div>
                     )
                 })}

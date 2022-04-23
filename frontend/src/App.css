@@ -841,3 +841,27 @@ input {
 .single-spend-details{
     display: flex;
 }
+.list-spend-popup{
+    position: fixed;
+    top: 40%;
+    left: 10%;
+    width: 80%;
+    height: auto;
+    max-height: 400px;
+    overflow: auto;
+    background-color: #fff;
+    padding: 30px 50px;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+.popup-list-header{
+    display: flex;
+    justify-content: space-between;
+}
+.popup-close-btn{
+    float: right;
+    width: 100px !important;
+}
+.popup-list-content{
+    margin-top: 30px;
+}

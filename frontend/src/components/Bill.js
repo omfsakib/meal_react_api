@@ -25,15 +25,7 @@ const Bill = ({ bill }) => {
             body: JSON.stringify(ubill)
         })
     }
-    let deleteNote = async () => {
-        fetch(`/api/delete/bill/${ubill.id}`,{
-            method: "DELETE",
-            headers:{
-                'Content-Type': 'application/json',
-                'Authorization':'Bearer '+ String(authTokens.access)
-            }
-        })
-    }
+    
     
     let handleBillChange = (e) =>{
         if(!e.target.value){
@@ -59,16 +51,13 @@ const Bill = ({ bill }) => {
             })
         }
     }
-    let handleDelete = () => {
-        deleteNote()
-    }
+    
     return (
         <>
         <input onClick={isClicked} onChange={(e) => {handleBillChange(e)}} className={clicked ? "input  active-input" : "input"} defaultValue={bill.bill_on}></input>
         <input onClick={isClicked} onChange={(e) => {handleAmountChange(e)}} className={clicked ? "input  active-input" : "input"} defaultValue={bill.amount}></input>
         <input onClick={isClicked} className={clicked ? "input  active-input" : "input"} defaultValue={bill.date_created} disabled></input>
         <p onClick={handleSubmit} className={clicked ? "submit-btn  active-submit-btn " : "submit-btn "}> Done <FaIcons.FaCheck/> </p>
-        <p onClick={handleDelete} className="delete-btn"> Delete <FaIcons.FaTrash/> </p>
         </>
     )
 }

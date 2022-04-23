@@ -1,15 +1,20 @@
 import React, { useState,useContext } from "react";
 import AuthContext from "../Context/AuthContext";
 // import * as FaIcons from 'react-icons/fa';
+import SpendView from "./SpendView";
+import GetUsername from './GetUsername';
 
-const Spend = ({ uSpend }) => {
+const Spend = (props) => {
 
-    const [spend,setSpend] = useState(uSpend)
+    const [spend,setSpend] = useState(props.uSpend)
     let {authTokens} =useContext(AuthContext)
     const [clicked,setClicked] = useState(false)
+    const [popUp,setPopUp] = useState(false)
     
-    // const [uspend,setUSpend] = useState(spend)
 
+    let spendsUpdate = (r) => {
+        props.updateSpends(r)
+    }
 
     let isClicked = () => {
         setClicked(true);
@@ -28,28 +33,7 @@ const Spend = ({ uSpend }) => {
             body: JSON.stringify(spend)
         })
     }
-    // let deleteSpend = async () => {
-    //     fetch(`/api/delete/spend/${uspend.id}`,{
-    //         method: "DELETE",
-    //         headers:{
-    //             'Content-Type': 'application/json',
-    //             'Authorization':'Bearer '+ String(authTokens.access)
-    //         }
-    //     })
-    // }
-    
-    // let handleSpendChange = (e) =>{
-    //     if(!e.target.value){
-    //         setUSpend({...uspend, 
-    //             'spend_on':uspend.spend_on,
-    //         })
-    //     }
-    //     else{
-    //         setUSpend({...uspend, 
-    //             'spend_on':e.target.value,
-    //         })
-    //     }
-    // }
+
     let handleAmountChange = (e) =>{
         if(!e.target.value){
             setSpend({...spend, 
@@ -62,12 +46,12 @@ const Spend = ({ uSpend }) => {
             })
         }
     }
-    // let handleDelete = () => {
-    //     deleteSpend()
-    // }
+    let viewPopUp = () => {
+        setPopUp(true)
+    }
+    
     return (
         <>
-        <div className="single-spend-details">
             {spend.spend_on ? 
                 <p>{spend.spend_on}</p>
                 :null
@@ -89,9 +73,9 @@ const Spend = ({ uSpend }) => {
                 </>
                 :null
             }
-            {spend.list_spend ? <p>{spend.list_spend}</p>:null}
-            {clicked ? <p onClick={handleSubmit}>Done</p> : <p>Delete</p>}
-        </div> 
+            {spend.user ? <p><GetUsername member={spend.user}/></p> :null}
+            {clicked ? <p onClick={handleSubmit}>Done</p> : <p onClick={viewPopUp}>View</p>}
+            {popUp ? <SpendView trigger={popUp} setTrigger={setPopUp} spend={spend} updateSpend={setSpend} updateSpends = {spendsUpdate}/> : null}
         </>
     )
 }

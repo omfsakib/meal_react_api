@@ -14,7 +14,6 @@ const Bills = () => {
     let mess =  JSON.parse(localStorage.getItem('mess'))
     const [clicked,setClicked] = useState(false)
     let total_bill = 0
-
     let members = mess.members
 
     const [bills,setBills] = useState(() => localStorage.getItem('bills') ? JSON.parse(localStorage.getItem('bills')) : null)
@@ -22,7 +21,7 @@ const Bills = () => {
     const[bill,setBill] = useState(null)
     
     bills.map((bill,index) => {
-        total_bill += parseInt(bill.amount)
+       return total_bill += parseInt(bill.amount)
     })
     let toogleUse = () => {
         clicked ? setClicked(false) : setClicked(true);
@@ -35,6 +34,15 @@ const Bills = () => {
                 'Authorization':'Bearer '+ String(authTokens.access)
             },
             body: JSON.stringify(bill)
+        })
+    }
+    let deleteBill = async (id) => {
+        fetch(`/api/delete/bill/${id}`,{
+            method: "DELETE",
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization':'Bearer '+ String(authTokens.access)
+            }
         })
     }
     let handleSubmit = () => {
@@ -66,13 +74,15 @@ const Bills = () => {
             })
         }
     }
-    
+    let handleDelete = (id) => {
+        deleteBill(id)
+        updateData()
+    }
     return (
         <>
         <div id="bills"> 
             <div className="header-content">
                 <h2><strong>{mess.name}</strong></h2>
-                <h2><p onClick={updateData}  className="submit-btn"> Refresh <BiIcons.BiRefresh/> </p></h2>
                 <h2>Total Bill : <strong>{total_bill}</strong> Tk</h2>
             </div>
             <div className="addbill-content">
@@ -87,7 +97,10 @@ const Bills = () => {
             </div>
             {bills.map((bill,index) => {
                 return(
-                        <div className="bill" key={index}><Bill bill = { bill }/></div> 
+                        <div className="bill" key={index}>
+                            <Bill bill = { bill }/>
+                            <p onClick={() => {handleDelete(bill.id)}} className="delete-btn"> Delete <FaIcons.FaTrash/> </p>
+                        </div> 
                 )
             })}
             <div className="user-bills">

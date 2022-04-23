@@ -215,6 +215,10 @@ def createBill(request):
 @api_view(['DELETE'])
 def deleteBill(request,pk):
     bill = Bills.objects.get(id = pk)
+    bill_on = bill.bill_on
+    amountspends =  AmountSpend.objects.filter(mess=bill.mess , spend_on = bill_on)
+    for i in amountspends:
+        i.delete()
     bill.delete()
     return Response('Bill was deleted!')
 
@@ -274,6 +278,7 @@ def createMealSpend(request):
     spend.save()
 
     return Response("Done")
+
 
 @api_view(['DELETE'])
 def deleteSpend(request,pk):
