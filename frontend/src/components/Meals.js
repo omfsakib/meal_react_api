@@ -1,5 +1,4 @@
 import React,{useEffect,useContext, useState} from "react";
-import AuthContext from "../Context/AuthContext";
 import './Slider/Slider.css';
 import BtnSlider from './Slider/BtnSlider';
 import {LoaderRocket} from './LoaderRocket';

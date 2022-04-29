@@ -286,6 +286,54 @@ def deleteSpend(request,pk):
     spend.delete()
     return Response('Spend was deleted!')
 
+@api_view(['GET'])
+def mealDeposits(request,pk):
+    year = date.today().year
+    month = date.today().month
+    user = User.objects.get(id = pk)
+    mess =  user.member.mess
+    deposit_for = "Meal"
+    dp = CashDeposit.objects.filter(
+        mess = mess, 
+        user = user,
+        deposit_for = deposit_for,
+        date_created__month__gte=month,
+        date_created__year__gte=year
+    ).count()
+    if dp == 0:
+        deposit = CashDeposit.objects.create(
+            mess = mess, 
+            user = user,
+            deposit_for = deposit_for
+        )
+    else:
+        deposit = CashDeposit.objects.get(
+            mess = mess, 
+            user = user,
+            deposit_for = deposit_for,
+            date_created__month__gte=month,
+            date_created__year__gte=year
+        )
+    all_dp = CashDeposit.objects.filter(
+        mess = mess,
+        user = user,
+        date_created__month__gte=month,
+        date_created__year__gte=year
+    )
+    total_deposit = 0
+    for i in all_dp:
+        total_deposit += i.amount
+    user_id = user.username
+    profile_pic = user.member.profile_pic.url
+    
+    return Response({
+        'id':deposit.id,
+        'user':user_id,
+        'meal_deposit':deposit.amount,
+        'total_deposit': total_deposit,
+        'date_created':deposit.date_created,
+        'profile_pic':profile_pic,
+    })
 
 @api_view(['GET'])
 def cashDeposits(request,pk):
@@ -306,6 +354,16 @@ def updateDeposit(request,pk):
 
     if serializer.is_valid():
         serializer.save()
+    
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+def updateMealDeposit(request,pk):
+    amount = request.data
+    deposit = CashDeposit.objects.get(id = pk)
+    deposit.amount += int(amount)
+    deposit.save()
+    serializer = CashDepositSerializer(deposit)
     
     return Response(serializer.data)
 

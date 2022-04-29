@@ -865,3 +865,136 @@ input {
 .popup-list-content{
     margin-top: 30px;
 }
+
+/*-- Cash Deposit Section  --*/
+#deposits{
+    display: flex;
+}
+#deposits .container-slider{
+    margin: 40px 0;
+}
+#deposits .card{
+    position: relative;
+    width: 240px;
+    height: 360px;
+    margin: 30px;
+    background: transparent;
+    border-radius: 20px;
+    border-bottom-left-radius: 160px;
+    border-bottom-right-radius: 160px;
+    box-shadow: 0 15px 0 #fff,
+    inset 0 -15px 0 rgba(255, 255, 255,0.25),
+    0 45px 0 rgba(0,0,0,0.15);
+    overflow: hidden;
+    display: flex;
+    float: left;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+}
+#deposits .card::before{
+    content: '';
+    position: absolute;
+    top: -140px;
+    left: -40%;
+    width: 100%;
+    height: 120%;
+    background: linear-gradient(90deg,transparent,rgba(255,255,255,0.2));
+    transform: rotate(35deg);
+    pointer-events: none;
+    filter: blur(5px);
+}
+#deposits .card:nth-child(1){
+    background: linear-gradient(to bottom,#ff2ae0,#645bf6);
+    border: none;
+}
+#deposits .card:nth-child(2){
+    background: linear-gradient(to bottom,#ffec61,#f321d7);
+    border: none;
+}
+#deposits .card:nth-child(3){
+    background: linear-gradient(to bottom,#24ff72,#9a4eff);
+    border: none;
+}
+#deposits .card .btn{
+    margin: 10px;
+}
+#deposits .icon{
+    position: relative;
+    width: 115px;
+    height: 105px;
+    background: var(--white);
+    border-bottom-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+    box-shadow: 0 10px 0 rgba(0,0,0,0.1),
+    inset 0 -8px 0 #fff;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+
+}
+#deposits .icon::before{
+
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50px;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border-top-right-radius: 50px;
+    box-shadow: 15px -15px 0 15px var(--white);
+}
+#deposits .icon::after{
+
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -50px;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border-top-left-radius: 50px;
+    box-shadow: -15px -15px 0 15px var(--white);
+}
+
+#deposits .icon img{
+    color: #fff;
+    position: relative;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    z-index: 10000;
+}
+#deposits .con{
+    position: absolute;
+    width: 100%;
+    padding: 30px;
+    padding-top: 140px;
+    text-align: center;
+}
+#deposits .con h2{
+    font-size: 1.75em;
+    color: #fff;
+    margin-bottom: 10px;
+}
+#deposits .con p{
+    color: #fff;
+    line-height: 1.5em;
+    display: inline;
+}
+#deposits .con input{
+    width: 75px;
+    color: #fff;
+    font-size: 1em;
+}
+#deposits .con p:last-child{
+    line-height: 3.5em;
+    border: 1px solid #fff;
+    padding: 7px;
+}
+#deposits .con p:last-child svg{
+    color: #fff;
+    position: relative;
+    margin-bottom: -2px;
+}
