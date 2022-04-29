@@ -5,6 +5,7 @@ import BtnSlider from './Slider/BtnSlider';
 import AuthContext from "../Context/AuthContext";
 import UserDeposits from "./UserDeposits";
 import { getDepositData } from "./DepositFetch";
+import GetUsername from './GetUsername';
 
 const Deposits = () => {
 
@@ -61,6 +62,22 @@ const Deposits = () => {
                 })}
                 <BtnSlider moveSlide={nextSlide} direction={"next"}/>
                 <BtnSlider moveSlide={prevSlide} direction={"prev"}/>
+            </div>
+            <div className="single-deposits">
+                <div className="deposits">
+                    <p><strong>Member</strong></p>
+                    <p><strong>Deposit for</strong></p>
+                    <p><strong>Amount</strong></p>
+                </div>
+                {deposits.map((deposit,index) =>{
+                    return(
+                        <div className="deposits" key={index}>
+                            <p><GetUsername member={deposit.user}/></p>
+                            <p>{deposit.deposit_for}</p>
+                            <p>{deposit.amount}</p>
+                        </div>
+                    )
+                })}
             </div>
         </div>
         </>

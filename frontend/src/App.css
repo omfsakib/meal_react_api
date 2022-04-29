@@ -869,6 +869,7 @@ input {
 /*-- Cash Deposit Section  --*/
 #deposits{
     display: flex;
+    justify-content: center;
 }
 #deposits .container-slider{
     margin: 40px 0;
@@ -997,4 +998,12 @@ input {
     color: #fff;
     position: relative;
     margin-bottom: -2px;
+}
+#deposits .single-deposits .deposits{
+    display: flex;
+    margin-left: 50px;
+}
+#deposits .single-deposits .deposits p{
+    padding: 10px;
+    width: 150px;
 }
