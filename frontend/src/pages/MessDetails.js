@@ -2,11 +2,13 @@ import React,{useContext, useState} from "react";
 import Bills from '../components/Bills';
 import Meals from '../components/Meals';
 import CashDeposits from '../components/CashDeposits';
+import AmountSpend from "../components/AmountSpends";
+import Balance from "../components/Balance";
 import AuthContext from "../Context/AuthContext";
 import { getData } from "../components/BillFetch";
 import { getSpendData } from "../components/SpendFetch";
-import AmountSpend from "../components/AmountSpends";
 import { getDepositData } from "../components/DepositFetch";
+import { getBalanceData } from "../components/BalanceFetch";
 
 
 const MessDetails = () => {
@@ -21,6 +23,7 @@ const MessDetails = () => {
     const [bills,setBills] = useState(() => localStorage.getItem('bills') ? JSON.parse(localStorage.getItem('bills')) : null)
     const [spends,setSpends] = useState(() => localStorage.getItem('spends') ? JSON.parse(localStorage.getItem('spends')) : null)
     const [deposits,setDeposits] = useState(() => localStorage.getItem('deposits') ? JSON.parse(localStorage.getItem('deposits')) : null)
+    const [balance,setBalance] = useState(() => localStorage.getItem('balance') ? JSON.parse(localStorage.getItem('balance')) : null)
 
     let mess =  JSON.parse(localStorage.getItem('mess'))
 
@@ -37,6 +40,11 @@ const MessDetails = () => {
     let handleDepositClick = async ({mess,authTokens}) => {
         setTimeout(() => {
             getDepositData({mess,authTokens}).then(r => { setDeposits(r) })
+         }, 500);
+    }
+    let handleBalanceClick = async ({mess,authTokens}) => {
+        setTimeout(() => {
+            getBalanceData({mess,authTokens}).then(r => { setBalance(r) })
          }, 500);
     }
     return(
@@ -80,7 +88,10 @@ const MessDetails = () => {
                     </button>
                     <button
                     className={toggleState === 5 ? "tabs active-tabs" : "tabs"}
-                    onClick={() => toggleTab(5)}
+                    onClick={() => {
+                        toggleTab(5)
+                        handleBalanceClick({mess,authTokens});
+                    } }
                     >
                     Balance
                     </button>
@@ -112,6 +123,7 @@ const MessDetails = () => {
                     <div
                     className={toggleState === 5 ? "content  active-content" : "content"}
                     >
+                        {balance === null ? null : <Balance/>}
                     </div>
                 </div>
                 </div> 

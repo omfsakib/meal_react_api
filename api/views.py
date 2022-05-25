@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from .serializers import *
 from rest_framework.response import Response
 from datetime import date
+from .utils import *
 
 
 
@@ -124,6 +125,10 @@ def meal(request,pk):
             member.total_meal = ml
             member.save()
 
+    meal_rate = getMealRate(member.mess)
+    member.person_spend = meal_rate * member.total_meal
+    member.save()
+    
 
     return Response({
         'id':id,
@@ -224,8 +229,10 @@ def deleteBill(request,pk):
 
 @api_view(['GET'])
 def amountSpends(request,pk):
+    year = date.today().year
+    month = date.today().month
     mess = Mess.objects.get(id = pk)
-    spends = AmountSpend.objects.filter(mess=mess)
+    spends = AmountSpend.objects.filter(mess=mess,date_created__month__gte=month,date_created__year__gte=year)
     serializer = AmountSpendSerializer(spends, many=True)
     return Response(
         serializer.data
@@ -337,8 +344,10 @@ def mealDeposits(request,pk):
 
 @api_view(['GET'])
 def cashDeposits(request,pk):
+    year = date.today().year
+    month = date.today().month
     mess = Mess.objects.get(id = pk)
-    deposits = CashDeposit.objects.filter(mess=mess)
+    deposits = CashDeposit.objects.filter(mess=mess,date_created__month__gte=month,date_created__year__gte=year)
     serializer = CashDepositSerializer(deposits, many=True)
     return Response(
         serializer.data
@@ -385,3 +394,14 @@ def deleteDeposit(request,pk):
     deposit = CashDeposit.objects.get(id = pk)
     deposit.delete()
     return Response('Deposit was deleted!')
+
+@api_view(['GET'])
+def balance(request,pk):
+    mess = Mess.objects.get(id = pk)
+    members = mess.members.all()
+    balance = []
+    for i in members:
+        user_balance = getBalance(i)
+        balance.append(user_balance)
+    
+    return Response(balance)

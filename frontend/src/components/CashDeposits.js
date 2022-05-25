@@ -1,6 +1,4 @@
 import React,{useContext,useState} from "react";
-import * as FaIcons from 'react-icons/fa';
-import * as BiIcons from 'react-icons/bi';
 import BtnSlider from './Slider/BtnSlider';
 import AuthContext from "../Context/AuthContext";
 import UserDeposits from "./UserDeposits";
@@ -38,7 +36,7 @@ const Deposits = () => {
     }
 
     deposits.map((deposit) => {
-        total_deposits += parseInt(deposit.amount)
+        return total_deposits += parseInt(deposit.amount)
     })
 
     let updateData = () => {
