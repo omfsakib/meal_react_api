@@ -5,7 +5,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import *
 from rest_framework.response import Response
+import datetime
 from datetime import date
+from datetime import timedelta
 from .utils import *
 
 
@@ -101,7 +103,8 @@ def meal(request,pk):
     now = date.today()
     meals = Meals.objects.filter(user = user, date_created__gte = now).count()
     if meals == 0:
-        meal = Meals.objects.create(user = user)
+        meal = Meals.objects.create(user = user, date_created = now)
+        print(meal)
         id = meal.id
         user_id = meal.user.id
     else:
@@ -405,3 +408,50 @@ def balance(request,pk):
         balance.append(user_balance)
     
     return Response(balance)
+
+@api_view(['POST'])
+def monthView(request,pk):
+    year = date.today().year
+    month = date.today().month
+    mealsheet = []
+    cashdeposit = []
+    amountspend = []
+    bill = []
+    total_member = 0
+    
+    data = request.data
+    date_from = datetime.datetime.strptime(data['date_from'], '%Y-%m-%d')
+    date_to = datetime.datetime.strptime(data['date_to'], '%Y-%m-%d')
+    delta = date_to - date_from
+
+    mess = Mess.objects.get(id = pk)
+    members = mess.members.all()
+
+    for i in range(delta.days + 1):
+        date1 = (date_from + timedelta(days=i)).strftime('%Y-%m-%d')
+        date2 = (date_from + timedelta(days=i+1)).strftime('%Y-%m-%d')
+        datemeal = createMealSheet(date1,date2,members)
+        mealsheet.append(datemeal)
+
+    cashdeposits = CashDeposit.objects.filter(mess=mess, date_created__gte = date_from, date_created__lte = date_to)
+    for i in cashdeposits:
+        deposit = getCashDeposit(i.id)
+        cashdeposit.append(deposit)
+
+    amountspends = AmountSpend.objects.filter(mess=mess, date_created__gte = date_from, date_created__lte = date_to)
+    for i in amountspends:
+        spend = getAmountSpend(i.id)
+        amountspend.append(spend)
+
+    bills = Bills.objects.filter(mess=mess)
+    for i in bills:
+        s_bill = getBill(i.id)
+        bill.append(s_bill)
+
+
+    return Response({
+        'mealsheet':mealsheet,
+        'cashdeposit':cashdeposit,
+        'amountspend':amountspend,
+        'bill':bill,
+    })

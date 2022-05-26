@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 
 const Balance = () => {
-    const [balance,setBalance] = useState(() => localStorage.getItem('balance') ? JSON.parse(localStorage.getItem('balance')) : null)
+    const [balance] = useState(() => localStorage.getItem('balance') ? JSON.parse(localStorage.getItem('balance')) : null)
     let total_spend = 0
     let total_deposit = 0
     let final_balance = 0

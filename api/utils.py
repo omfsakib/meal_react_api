@@ -70,4 +70,69 @@ def getBalance(member_id):
         "balance":balance
     })
 
+def getCashDeposit(deposit_id):
+    cashdeposit = CashDeposit.objects.get(id = deposit_id)
 
+    return ({
+        "id" : cashdeposit.id,
+        "mess" : cashdeposit.mess.name,
+        "user": cashdeposit.user.username,
+        "deposit_for":cashdeposit.deposit_for,
+        "amount":cashdeposit.amount,
+        "date_created":cashdeposit.date_created
+    })
+
+def getAmountSpend(spend_id):
+    amountspend = AmountSpend.objects.get(id = spend_id)
+
+    return ({
+            "id" : amountspend.id,
+            "mess" : amountspend.mess.name,
+            "user": amountspend.user.username,
+            "spend_on":amountspend.spend_on,
+            "list_spend":amountspend.list_spend,
+            "amounts":amountspend.amounts,
+            "amount":amountspend.amount,
+            "date_created":amountspend.date_created,
+        })
+
+def getBill(bill_id):
+    bill = Bills.objects.get(id = bill_id)
+
+    return ({
+            "id" : bill.id,
+            "mess" : bill.mess.name,
+            "bill_on":bill.bill_on,
+            "amount":bill.amount,
+            "date_created":bill.date_created,
+        })
+
+def getMeal(meal_id):
+    meal = Meals.objects.get(id = meal_id)
+
+    return ({
+            "id" : meal.id,
+            "user" : meal.user.username,
+            "todays_meal":meal.todays_meal,
+            "date_created":meal.date_created,
+        })
+
+def createMealSheet(date_from,date_to,members):
+    datesheet = []
+    for i in members:
+        meals = Meals.objects.filter(user = i, date_created__gt = date_from, date_created__lt = date_to)
+        total_meals = meals.count()
+        if total_meals > 0:
+            meal = Meals.objects.get(user = i, date_created__gt = date_from, date_created__lt = date_to)
+            json_meal = getMeal(meal.id) 
+            datesheet.append(json_meal)
+        else:
+            meal = Meals.objects.create(user = i, date_created = date_to)
+            json_meal = getMeal(meal.id) 
+            datesheet.append(json_meal)
+    
+    return ({
+        date_from : datesheet
+    })
+                
+ 

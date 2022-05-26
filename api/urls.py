@@ -29,5 +29,6 @@ urlpatterns = [
     path('delete/deposit/<str:pk>',deleteDeposit,name="delete-deposit"),
     path('check/deposit/<str:pk>/<str:deposit_for>',checkDeposit,name="check-deposit"),
     path('check/spend/<str:pk>/<str:spend_on>',checkSpend,name="check-spend"),
-    path('balance/<str:pk>',balance,name="balance")
+    path('balance/<str:pk>',balance,name="balance"),
+    path('monthview/<str:pk>',monthView,name="month-view")
 ]
