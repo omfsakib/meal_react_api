@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import MealSheet from "../components/MealSheet";
+import SpendSheet from "../components/SpendSheet";
+import CashDeposit from "../components/CashDeposit";
+import MonthBill from "../components/MonthBill";
 
 const MonthView = () => {
-    let [monthview,setMonthView] = useState()
+    let [monthview,setMonthView] = useState(() => localStorage.getItem('monthview') ? JSON.parse(localStorage.getItem('monthview')) : null)
+    let [totalMeal,setTotalMeal] = useState(0)
+    let [usertotalmeal,setUserTotalMeal] = useState(() => monthview.usertotalmeal ? monthview.usertotalmeal : [])
+    let [usertotaldeposit,setUserTotalDeposit] = useState(() => monthview.usertotaldeposit ? monthview.usertotaldeposit : [])
     let date_from = useState()
     let date_to = useState()
     let mess =  JSON.parse(localStorage.getItem('mess'))
-    let mealsheet = monthview ?  monthview.mealsheet : null 
 
     let getDateFrom = (e) => {
         date_from = e.target.value
@@ -14,14 +19,17 @@ const MonthView = () => {
     let getDateTo = (e) => {
         date_to = e.target.value
     }
-
+    {usertotalmeal.map((item) => {
+        return totalMeal += parseInt(item)
+    })}
+    console.log(usertotalmeal) 
     let getMonth = async () =>{
         let response = await fetch(`api/monthview/${mess.id}`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
             },
-            body: JSON.stringify({'date_from':date_from,'date_to':date_to})
+            body: JSON.stringify({'date_from':date_from,'date_to':date_to}) 
         })
         let data = await response.json();
         if(response.status === 200) {
@@ -44,6 +52,16 @@ const MonthView = () => {
             <div className="mealsheet">
                 {monthview ? <MealSheet/> :  null }
             </div>
+            <div className="amountspend">
+                {monthview ? <SpendSheet/> : null}
+            </div>
+            <div className="bills">
+                {monthview ? <MonthBill/> : null}
+            </div>
+            <div className="cashdeposit">
+                {monthview ? <CashDeposit/> : null}
+            </div>
+
         </section>
         </>
     )

@@ -411,13 +411,13 @@ def balance(request,pk):
 
 @api_view(['POST'])
 def monthView(request,pk):
-    year = date.today().year
-    month = date.today().month
     mealsheet = []
     cashdeposit = []
     amountspend = []
     bill = []
-    total_member = 0
+    usertotalmeal = []
+    usertotaldeposit = []
+    totalspend = 0
     
     data = request.data
     date_from = datetime.datetime.strptime(data['date_from'], '%Y-%m-%d')
@@ -427,11 +427,18 @@ def monthView(request,pk):
     mess = Mess.objects.get(id = pk)
     members = mess.members.all()
 
+    for i in members:
+        usermeal = getUserTotalMeal(date_from,date_to,i)
+        usertotalmeal.append(usermeal)
+        userdeposit = getUserTotalDeposit(date_from,date_to,i,mess)
+        usertotaldeposit.append(userdeposit)
+
     for i in range(delta.days + 1):
         date1 = (date_from + timedelta(days=i)).strftime('%Y-%m-%d')
         date2 = (date_from + timedelta(days=i+1)).strftime('%Y-%m-%d')
         datemeal = createMealSheet(date1,date2,members)
         mealsheet.append(datemeal)
+        
 
     cashdeposits = CashDeposit.objects.filter(mess=mess, date_created__gte = date_from, date_created__lte = date_to)
     for i in cashdeposits:
@@ -440,6 +447,8 @@ def monthView(request,pk):
 
     amountspends = AmountSpend.objects.filter(mess=mess, date_created__gte = date_from, date_created__lte = date_to)
     for i in amountspends:
+        if i.spend_on == "Meal Market":
+            totalspend += i.amount
         spend = getAmountSpend(i.id)
         amountspend.append(spend)
 
@@ -454,4 +463,7 @@ def monthView(request,pk):
         'cashdeposit':cashdeposit,
         'amountspend':amountspend,
         'bill':bill,
+        'usertotalmeal':usertotalmeal,
+        'totalspend':totalspend,
+        'usertotaldeposit':usertotaldeposit
     })

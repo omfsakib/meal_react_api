@@ -118,16 +118,17 @@ def getMeal(meal_id):
         })
 
 def createMealSheet(date_from,date_to,members):
+    print(date_from,date_to)
     datesheet = []
     for i in members:
-        meals = Meals.objects.filter(user = i, date_created__gt = date_from, date_created__lt = date_to)
+        meals = Meals.objects.filter(user = i, date_created__gte = date_from, date_created__lt = date_to)
         total_meals = meals.count()
         if total_meals > 0:
-            meal = Meals.objects.get(user = i, date_created__gt = date_from, date_created__lt = date_to)
+            meal = Meals.objects.get(user = i, date_created__gte = date_from, date_created__lt = date_to)
             json_meal = getMeal(meal.id) 
             datesheet.append(json_meal)
         else:
-            meal = Meals.objects.create(user = i, date_created = date_to)
+            meal = Meals.objects.create(user = i, date_created = date_from)
             json_meal = getMeal(meal.id) 
             datesheet.append(json_meal)
     
@@ -136,3 +137,18 @@ def createMealSheet(date_from,date_to,members):
     })
                 
  
+def getUserTotalMeal(date_from,date_to,member):
+    total_meal = 0
+    meals = Meals.objects.filter(user = member, date_created__gte = date_from, date_created__lte = date_to)
+    for i in meals:
+        total_meal += i.todays_meal
+    
+    return (total_meal)
+
+def getUserTotalDeposit(date_from,date_to,member,mess):
+    total_deposit = 0
+    deposits = CashDeposit.objects.filter(user = member,mess=mess, date_created__gte = date_from, date_created__lte = date_to)
+    for i in deposits:
+        total_deposit += i.amount
+
+    return (total_deposit)
