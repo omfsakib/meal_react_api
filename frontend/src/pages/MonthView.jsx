@@ -8,9 +8,12 @@ const MonthView = () => {
     let [monthview,setMonthView] = useState(() => localStorage.getItem('monthview') ? JSON.parse(localStorage.getItem('monthview')) : null)
     let [totalMeal,setTotalMeal] = useState(0)
     let [usertotalmeal,setUserTotalMeal] = useState(() => monthview.usertotalmeal ? monthview.usertotalmeal : [])
+    let [totalspend,setTotalSpend] = useState(() => monthview.totalspend ? monthview.totalspend : 0)
     let [usertotaldeposit,setUserTotalDeposit] = useState(() => monthview.usertotaldeposit ? monthview.usertotaldeposit : [])
+    let [totaldeposit,setTotalDeposit] = useState(0)
     let date_from = useState()
     let date_to = useState()
+    let meal_rate = useState(0)
     let mess =  JSON.parse(localStorage.getItem('mess'))
 
     let getDateFrom = (e) => {
@@ -22,7 +25,14 @@ const MonthView = () => {
     {usertotalmeal.map((item) => {
         return totalMeal += parseInt(item)
     })}
-    console.log(usertotalmeal) 
+    {usertotaldeposit.map((item) => {
+        return totaldeposit += item
+    })}
+    if(totalMeal == 0){
+        meal_rate = 0
+    }else{
+        meal_rate = totalspend / totalMeal
+    }
     let getMonth = async () =>{
         let response = await fetch(`api/monthview/${mess.id}`,{
             method:"POST",
@@ -49,6 +59,10 @@ const MonthView = () => {
                     <input type="date" name = "date_to" onChange={(e) => {getDateTo(e)}}/>
                     <button type="submit" onClick={getMonth}>Submit</button>
             </div>
+            <p>{totalMeal}</p>
+            <p>{totalspend}</p>
+            <p>{meal_rate}</p>
+            <p>{totaldeposit}</p>
             <div className="mealsheet">
                 {monthview ? <MealSheet/> :  null }
             </div>

@@ -422,6 +422,7 @@ def monthView(request,pk):
     data = request.data
     date_from = datetime.datetime.strptime(data['date_from'], '%Y-%m-%d')
     date_to = datetime.datetime.strptime(data['date_to'], '%Y-%m-%d')
+    extra_date = (date_to + timedelta(days=1)).strftime('%Y-%m-%d')
     delta = date_to - date_from
 
     mess = Mess.objects.get(id = pk)
@@ -440,12 +441,13 @@ def monthView(request,pk):
         mealsheet.append(datemeal)
         
 
-    cashdeposits = CashDeposit.objects.filter(mess=mess, date_created__gte = date_from, date_created__lte = date_to)
+    cashdeposits = CashDeposit.objects.filter(mess=mess, date_created__gte = date_from, date_created__lte = extra_date)
     for i in cashdeposits:
         deposit = getCashDeposit(i.id)
         cashdeposit.append(deposit)
 
-    amountspends = AmountSpend.objects.filter(mess=mess, date_created__gte = date_from, date_created__lte = date_to)
+    amountspends = AmountSpend.objects.filter(mess=mess, date_created__gte = date_from, date_created__lte = extra_date)
+    print(amountspends)
     for i in amountspends:
         if i.spend_on == "Meal Market":
             totalspend += i.amount

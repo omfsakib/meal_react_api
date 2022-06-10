@@ -17,7 +17,13 @@ def getMealRate(mess_id):
     for i in spend_objects:
         total_spend += i.amount
 
-    meal_rate = total_spend / total_meal
+    if total_spend == 0:
+        meal_rate = 0
+    else:
+        if total_meal == 0:
+            meal_rate = 0
+        else:
+            meal_rate = total_spend / total_meal
 
     return meal_rate
 
