@@ -1,3 +1,4 @@
+from ast import Pass
 from tokenize import String
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -469,3 +470,22 @@ def monthView(request,pk):
         'totalspend':totalspend,
         'usertotaldeposit':usertotaldeposit
     })
+
+
+@api_view(['POST'])
+def createPost(request):
+
+    return Response({
+        
+    })
+
+@api_view(['GET'])
+def postView(request):
+    post = Posts.objects.all()
+    post_count = Posts.objects.all().count()
+    if post_count>0:
+        for i in post:
+            i.postimage = PostImage.objects.filter(post=i)
+    else:
+        Pass
+    

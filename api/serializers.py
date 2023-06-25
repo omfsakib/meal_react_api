@@ -38,3 +38,8 @@ class CashDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = CashDeposit
         fields = '__all__'
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Posts
+        fields = '__all__'

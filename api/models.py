@@ -65,3 +65,23 @@ class CashDeposit(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+class Posts(models.Model):
+    CATEGORY = (
+        ('Request','Request'),
+        ('Requirement', 'Requirement'),
+        ('House Rent','House Rent'),
+        ('Status','Status')
+    )
+    user = models.ForeignKey(User, null = True,blank=True ,on_delete=models.CASCADE)
+    caption = models.CharField(max_length= 500,blank=True,null=True)
+    category = models.CharField(default='Status',max_length=200,blank=True, null=True,choices=CATEGORY)
+    division = models.CharField(max_length= 250,blank=True,null=True)
+    district = models.CharField(max_length= 250,blank=True,null=True)
+    city = models.CharField(max_length= 250,blank=True,null=True)
+    additional_address = models.CharField(max_length= 250,blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class PostImage(models.Model):
+    post = models.ForeignKey(Posts,null = True,blank=True ,on_delete=models.CASCADE)
+    image = models.ImageField(default="profile.png",null = True,blank = True)
